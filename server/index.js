@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const sftpClient = require('./sftp'); // Assuming sftp.js is renamed to sftp.js
+const path = require('path');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -49,14 +50,22 @@ app.post('/api/sftp/upload', async (req, res) => {
   }
 });
 
-// Endpoint to download a file from the SFTP server
 app.get('/api/sftp/download/:remotePath', async (req, res) => {
   const { remotePath } = req.params;
-  const { localPath } = req.query; // Optional query parameter for local path
+  
   try {
-    const response = await sftpClient.downloadFile(remotePath, localPath || 'default_download.txt'); // Set a default local path if not provided
-    res.json({ message: response });
+    const fileData = await sftpClient.downloadFile(remotePath);
+    
+    // Set headers for file download
+    res.setHeader('Content-Disposition', `attachment; filename="${path.basename(remotePath)}"`);
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Length', fileData.length);
+    
+    // Send the file data
+    res.send(fileData);
+    
   } catch (err) {
+    console.error('Download error:', err);
     res.status(500).json({ message: err.message });
   }
 });

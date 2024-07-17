@@ -14,10 +14,11 @@ if (!SFTP_HOST || !SFTP_PORT || !SFTP_USERNAME || !SFTP_PASSWORD) {
   throw new Error('SFTP configuration is incomplete. Please check your .env file.');
 }
 
-console.log('SFTP_HOST:', process.env.SFTP_HOST);
-console.log('SFTP_PORT:', process.env.SFTP_PORT);
-console.log('SFTP_USERNAME:', process.env.SFTP_USERNAME);
-  // Don't log the password in a production environment
+// To test if the .env is loaded properly
+// console.log('SFTP_HOST:', process.env.SFTP_HOST);
+// console.log('SFTP_PORT:', process.env.SFTP_PORT);
+// console.log('SFTP_USERNAME:', process.env.SFTP_USERNAME);
+//   // Don't log the password in a production environment
 
 async function connect() {
   try {
@@ -58,11 +59,12 @@ async function uploadFile(localPath, remotePath) {
   }
 }
 
-async function downloadFile(remotePath, localPath) {
+async function downloadFile(remotePath) {
   try {
-    return sftp.get(remotePath, localPath);
+    const data = await sftp.get(remotePath);
+    return data; // This might be a Buffer or another data type
   } catch (err) {
-    return err.message;
+    throw err;
   }
 }
 
