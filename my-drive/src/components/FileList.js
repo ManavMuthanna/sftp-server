@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getList } from '../api';
 
-const FileList = ({ path }) => {
+const FileList = ({ path, refreshKey }) => {
   const [files, setFiles] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const FileList = ({ path }) => {
     };
 
     fetchFiles();
-  }, [path]);
+  }, [path, refreshKey]); // Depend on both path and refreshKey
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);

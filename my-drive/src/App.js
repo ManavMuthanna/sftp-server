@@ -9,9 +9,9 @@ import LogOut from './components/LogOut';
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [path, setPath] = useState('upload%2FManav');
+  const [refreshKey, setRefreshKey] = useState(0); // Add a key for refreshing FileList
 
   const handleConnect = (message) => {
-    console.log(message);
     if (message == "connect: An existing SFTP connection is already defined") {
       
     } else {
@@ -25,6 +25,11 @@ const App = () => {
     setIsConnected(false);
   };
 
+  const handleDelete = () => {
+    // Refresh file list after delete
+    setRefreshKey((prevKey) => prevKey + 1); // Update the refresh key
+  };
+
   return (
     <div className="App">
       <h1>SFTP Client</h1>
@@ -32,10 +37,10 @@ const App = () => {
         <Connect onConnect={handleConnect} />
       ) : (
         <div>
-          <FileList path={path} />
+          <FileList key={refreshKey} path={path} />
           <Upload />
           <Download />
-          <Delete />
+          <Delete onDelete={handleDelete} />
           <LogOut onDisConnect={handleDisconnect} />
         </div>
       )}
