@@ -51,11 +51,24 @@ async function getList(path) {
   }
 }
 
-async function uploadFile(localPath, remotePath) {
+// async function uploadFile(localPath, remotePath) {
+//   try {
+//     return sftp.put(localPath, remotePath);
+//   } catch (err) {
+//     return err.message;
+//   }
+// }
+
+async function uploadFile(fileContent, remotePath) {
   try {
-    return sftp.put(localPath, remotePath);
+    // Upload file content directly as Buffer
+    await sftp.put(fileContent, remotePath);
+    await sftp.end();
+    console.log("File uploaded successfully");
+    return true;
   } catch (err) {
-    return err.message;
+    console.error('Error uploading file:', err.message);
+    throw err;
   }
 }
 

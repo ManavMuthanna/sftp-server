@@ -1,12 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const sftpClient = require('./sftp'); // Assuming sftp.js is renamed to sftp.js
+const cors = require('cors');
+const sftpClient = require('./sftp');
 const path = require('path');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
-app.use(bodyParser.json());
+// Enable CORS from all origins
+app.use(cors());
+
+app.use(bodyParser.json({ limit: '50mb' })); // Adjust limit as per your file size needs
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Endpoint to connect to the SFTP server
 app.post('/api/sftp/connect', async (req, res) => {
@@ -39,14 +44,31 @@ app.get('/api/sftp/list/:path', async (req, res) => {
   }
 });
 
+// // Endpoint to upload a file to the SFTP server
+// app.post('/api/sftp/upload', async (req, res) => {
+//   const { localPath, remotePath } = req.body;
+//   try {
+//     const response = await sftpClient.uploadFile(localPath, remotePath);
+//     res.json({ message: response });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
+
+
 // Endpoint to upload a file to the SFTP server
 app.post('/api/sftp/upload', async (req, res) => {
-  const { localPath, remotePath } = req.body;
+  const { file, remotePath } = req.body;
+
   try {
-    const response = await sftpClient.uploadFile(localPath, remotePath);
+    // Convert base64 string back to Buffer
+    const contentBuffer = Buffer.from(file, 'base64');
+    
+    const response = await sftpClient.uploadFile(contentBuffer, remotePath);
     res.json({ message: response });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    console.error('Server upload error:', err.message);
+    res.status(500).json({ message: 'Failed to upload file' });
   }
 });
 

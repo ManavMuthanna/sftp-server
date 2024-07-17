@@ -3,8 +3,8 @@ const path = require('path');
 const axios = require('axios');
 
 // Configuration
-const serverUrl = 'http://localhost:3000'; // Replace with your server URL if different
-const remotePath = 'upload/Manav/ex.jfif'; // Replace with the actual remote path
+const serverUrl = 'http://localhost:5000'; // Replace with your server URL if different
+const remotePath = 'upload/Manav/ex2.jfif'; // Replace with the actual remote path
 const saveDirectory = './tmp'; // Directory where files will be saved
 
 // Ensure the save directory exists
