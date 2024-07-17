@@ -1,10 +1,13 @@
 const express = require('express');
+const multer = require('multer');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const sftpClient = require('./sftp');
 const path = require('path');
 
 const app = express();
+const upload = multer(); 
+
 const port = process.env.PORT || 5000;
 
 // Enable CORS from all origins
@@ -57,13 +60,16 @@ app.get('/api/sftp/list/:path', async (req, res) => {
 
 
 // Endpoint to upload a file to the SFTP server
-app.post('/api/sftp/upload', async (req, res) => {
-  const { file, remotePath } = req.body;
+app.post('/api/sftp/upload', upload.single('file'), async (req, res) => {
+  const file = req.file; // Uploaded file object
+  const remotePath = req.body.remotePath; // Remote path from the request body
+
+  if (!file) {
+    return res.status(400).json({ message: 'No file uploaded' });
+  }
 
   try {
-    // Convert base64 string back to Buffer
-    const contentBuffer = Buffer.from(file, 'base64');
-    
+    const contentBuffer = file.buffer; // Buffer containing file content
     const response = await sftpClient.uploadFile(contentBuffer, remotePath);
     res.json({ message: response });
   } catch (err) {

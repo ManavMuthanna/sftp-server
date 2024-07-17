@@ -61,11 +61,14 @@ async function getList(path) {
 
 async function uploadFile(fileContent, remotePath) {
   try {
-    // Upload file content directly as Buffer
-    await sftp.put(fileContent, remotePath);
-    await sftp.end();
-    console.log("File uploaded successfully");
-    return true;
+    // Convert base64 string back to Buffer
+    const contentBuffer = Buffer.from(fileContent, 'base64');
+
+    await sftp.put(contentBuffer, remotePath); // Upload file to SFTP server
+
+    await sftp.end(); // Close connection
+
+    return 'File uploaded successfully';
   } catch (err) {
     console.error('Error uploading file:', err.message);
     throw err;
