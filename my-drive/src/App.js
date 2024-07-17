@@ -37,7 +37,6 @@ const App = () => {
         <div>
           <FileList path={path} refreshKey={refreshKey} onDelete={handleRefresh} />
           <Upload onUpload={handleRefresh} />
-          <Download />
           <LogOut onDisConnect={handleDisconnect} />
         </div>
       )}

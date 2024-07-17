@@ -1,13 +1,12 @@
 // src/components/Download.js
-import React, { useState } from 'react';
+import React from 'react';
 import { downloadFile } from '../api';
 
-const Download = () => {
-  const [remotePath, setRemotePath] = useState('upload%2FManav%2F');
-  const [fileName, setFileName] = useState('');
+const Download = ({ fileName }) => {
   const handleDownload = async () => {
     try {
-      const response = await downloadFile(remotePath + fileName); // Concatenate remotePath and fileName
+      const remotePath = 'upload%2FManav%2F';
+      const response = await downloadFile(remotePath + fileName);
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
@@ -21,16 +20,7 @@ const Download = () => {
   };
 
   return (
-    <div>
-      <h2>Download File</h2>
-      <input
-        type="text"
-        placeholder="File Name"
-        value={fileName}
-        onChange={(e) => setFileName(e.target.value)}
-      />
-      <button onClick={handleDownload}>Download</button>
-    </div>
+    <button onClick={handleDownload}>Download</button>
   );
 };
 

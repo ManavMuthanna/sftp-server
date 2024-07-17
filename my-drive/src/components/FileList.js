@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getList } from '../api';
 import Delete from './Delete';
+import Download from './Download';
 
 const FileList = ({ path, refreshKey, onDelete }) => {
   const [files, setFiles] = useState([]);
@@ -25,7 +26,7 @@ const FileList = ({ path, refreshKey, onDelete }) => {
 
   return (
     <div>
-      <h2>Files in {path.replace('%2F', '/')}</h2>
+      <h2>{path.replace('%2F', ' > ')}</h2>
       <table>
         <thead>
           <tr>
@@ -44,6 +45,7 @@ const FileList = ({ path, refreshKey, onDelete }) => {
               <td>{formatDate(file.modifyTime)}</td>
               <td>{formatDate(file.accessTime)}</td>
               <td>
+                <Download fileName={file.name} />
                 <Delete fileName={file.name} onDelete={onDelete} />
               </td>
             </tr>
