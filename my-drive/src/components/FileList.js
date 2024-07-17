@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { getList } from '../api';
+import Delete from './Delete';
 
-const FileList = ({ path, refreshKey }) => {
+const FileList = ({ path, refreshKey, onDelete }) => {
   const [files, setFiles] = useState([]);
 
   useEffect(() => {
@@ -25,24 +26,30 @@ const FileList = ({ path, refreshKey }) => {
   return (
     <div>
       <h2>Files in {path.replace('%2F', '/')}</h2>
-      <ul>
-        {files.map((file) => (
-          <li key={file.name}>
-            <div>
-              <strong>Name:</strong> {file.name}
-            </div>
-            <div>
-              <strong>Size:</strong> {file.size} bytes
-            </div>
-            <div>
-              <strong>Last Modified:</strong> {formatDate(file.modifyTime)}
-            </div>
-            <div>
-              <strong>Last Accessed:</strong> {formatDate(file.accessTime)}
-            </div>
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Last Modified</th>
+            <th>Last Accessed</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {files.map((file) => (
+            <tr key={file.name}>
+              <td>{file.name}</td>
+              <td>{file.size} bytes</td>
+              <td>{formatDate(file.modifyTime)}</td>
+              <td>{formatDate(file.accessTime)}</td>
+              <td>
+                <Delete fileName={file.name} onDelete={onDelete} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

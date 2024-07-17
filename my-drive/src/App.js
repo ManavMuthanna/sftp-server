@@ -3,17 +3,16 @@ import Connect from './components/Connect';
 import FileList from './components/FileList';
 import Upload from './components/Upload';
 import Download from './components/Download';
-import Delete from './components/Delete';
 import LogOut from './components/LogOut';
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [path, setPath] = useState('upload%2FManav');
-  const [refreshKey, setRefreshKey] = useState(0); // Add a key for refreshing FileList
+  const [refreshKey, setRefreshKey] = useState(0); // New state to handle refresh
 
   const handleConnect = (message) => {
-    if (message == "connect: An existing SFTP connection is already defined") {
-      
+    if (message === "connect: An existing SFTP connection is already defined") {
+      // Handle existing connection case
     } else {
       alert(message);
       setIsConnected(true);
@@ -25,13 +24,8 @@ const App = () => {
     setIsConnected(false);
   };
 
-  const handleDelete = () => {
-    // Refresh file list after delete
-    setRefreshKey((prevKey) => prevKey + 1); // Update the refresh key
-  };
-
-  const handleUpload = () => {
-    setRefreshKey((prevKey) => prevKey + 1); // Update the refresh key
+  const handleRefresh = () => {
+    setRefreshKey((prevKey) => prevKey + 1); // Update refresh key to trigger re-render
   };
 
   return (
@@ -41,10 +35,9 @@ const App = () => {
         <Connect onConnect={handleConnect} />
       ) : (
         <div>
-          <FileList key={refreshKey} path={path} />
-          <Upload onUpload={handleUpload} />
+          <FileList path={path} refreshKey={refreshKey} onDelete={handleRefresh} />
+          <Upload onUpload={handleRefresh} />
           <Download />
-          <Delete onDelete={handleDelete} />
           <LogOut onDisConnect={handleDisconnect} />
         </div>
       )}

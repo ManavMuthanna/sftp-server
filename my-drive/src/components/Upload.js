@@ -1,4 +1,3 @@
-// src/components/Upload.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -18,7 +17,7 @@ const Upload = ({ onUpload }) => {
 
     const formData = new FormData();
     formData.append('file', file); // Append the file to FormData
-    formData.append('remotePath', `${remotePath}/${file.name}`); // Append remotePath with file name
+    formData.append('remotePath', `${remotePath}/${file.name}`); // Append remotePath
 
     try {
       const response = await axios.post('http://localhost:5000/api/sftp/upload', formData, {
