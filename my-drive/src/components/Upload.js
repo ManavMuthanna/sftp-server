@@ -1,7 +1,8 @@
+// src/components/Upload.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Upload = () => {
+const Upload = ({ onUpload }) => {
   const [file, setFile] = useState(null);
   const [remotePath, setRemotePath] = useState('upload/Manav');
 
@@ -17,7 +18,7 @@ const Upload = () => {
 
     const formData = new FormData();
     formData.append('file', file); // Append the file to FormData
-    formData.append('remotePath', `${remotePath}/${file.name}`); // Append remotePath with filename
+    formData.append('remotePath', `${remotePath}/${file.name}`); // Append remotePath with file name
 
     try {
       const response = await axios.post('http://localhost:5000/api/sftp/upload', formData, {
@@ -27,6 +28,7 @@ const Upload = () => {
       });
 
       alert(response.data.message);
+      onUpload(); // Notify parent component that upload is done
     } catch (err) {
       console.error('Upload failed:', err.message);
       if (err.response) {

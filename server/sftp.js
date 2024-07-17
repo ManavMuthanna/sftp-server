@@ -3,8 +3,6 @@ dotenv.config();
 
 const Client = require('ssh2-sftp-client');
 
-const sftp = new Client();
-
 const SFTP_HOST = process.env.SFTP_HOST;
 const SFTP_PORT = process.env.SFTP_PORT;
 const SFTP_USERNAME = process.env.SFTP_USERNAME;
@@ -14,90 +12,106 @@ if (!SFTP_HOST || !SFTP_PORT || !SFTP_USERNAME || !SFTP_PASSWORD) {
   throw new Error('SFTP configuration is incomplete. Please check your .env file.');
 }
 
-// To test if the .env is loaded properly
-// console.log('SFTP_HOST:', process.env.SFTP_HOST);
-// console.log('SFTP_PORT:', process.env.SFTP_PORT);
-// console.log('SFTP_USERNAME:', process.env.SFTP_USERNAME);
-//   // Don't log the password in a production environment
-
-async function connect() {
+async function createConnection() {
+  const sftp = new Client();
   try {
     await sftp.connect({
       host: SFTP_HOST,
       port: parseInt(SFTP_PORT, 10),
       username: SFTP_USERNAME,
-      password: SFTP_PASSWORD
+      password: SFTP_PASSWORD,
     });
-    return 'Connected to SFTP server';
+    return sftp;
   } catch (err) {
     console.error('SFTP connection error:', err);
-    return err.message;
+    throw err;
   }
 }
-
-async function getStatus() {
-  try {
-    return sftp.exists('.');
-  } catch (err) {
-    return err.message;
-  }
-}
-
-async function getList(path) {
-  try {
-    return sftp.list(path);
-  } catch (err) {
-    return err.message;
-  }
-}
-
-// async function uploadFile(localPath, remotePath) {
-//   try {
-//     return sftp.put(localPath, remotePath);
-//   } catch (err) {
-//     return err.message;
-//   }
-// }
 
 async function uploadFile(fileContent, remotePath) {
+  const sftp = await createConnection();
   try {
-    // Convert base64 string back to Buffer
     const contentBuffer = Buffer.from(fileContent, 'base64');
-
-    await sftp.put(contentBuffer, remotePath); // Upload file to SFTP server
-
-    await sftp.end(); // Close connection
-
+    await sftp.put(contentBuffer, remotePath);
     return 'File uploaded successfully';
   } catch (err) {
     console.error('Error uploading file:', err.message);
     throw err;
+  } finally {
+    await sftp.end();
   }
 }
 
 async function downloadFile(remotePath) {
+  const sftp = await createConnection();
   try {
     const data = await sftp.get(remotePath);
-    return data; // This might be a Buffer or another data type
+    return data;
   } catch (err) {
+    console.error('Error downloading file:', err.message);
     throw err;
+  } finally {
+    await sftp.end();
   }
 }
 
 async function removeFile(path) {
+  const sftp = await createConnection();
   try {
-    return sftp.delete(path);
+    await sftp.delete(path);
+    return 'File deleted successfully';
   } catch (err) {
-    return err.message;
+    console.error('Error deleting file:', err.message);
+    throw err;
+  } finally {
+    await sftp.end();
+  }
+}
+
+async function getStatus() {
+  const sftp = await createConnection();
+  try {
+    return await sftp.exists('.');
+  } catch (err) {
+    console.error('Error getting status:', err.message);
+    throw err;
+  } finally {
+    await sftp.end();
+  }
+}
+
+async function getList(path) {
+  const sftp = await createConnection();
+  try {
+    return await sftp.list(path);
+  } catch (err) {
+    console.error('Error getting list:', err.message);
+    throw err;
+  } finally {
+    await sftp.end();
+  }
+}
+
+async function connect() {
+  const sftp = await createConnection();
+  try {
+    return 'Connected to SFTP server';
+  } catch (err) {
+    console.error('Error connecting to SFTP server:', err.message);
+    throw err;
+  } finally {
+    await sftp.end();
   }
 }
 
 async function disconnect() {
+  const sftp = await createConnection();
   try {
     await sftp.end();
     return 'Disconnected from SFTP server';
   } catch (err) {
-    return err.message;
+    console.error('Error disconnecting from SFTP server:', err.message);
+    throw err;
   }
 }
 
@@ -108,5 +122,5 @@ module.exports = {
   uploadFile,
   downloadFile,
   removeFile,
-  disconnect
+  disconnect,
 };

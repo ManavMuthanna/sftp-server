@@ -30,6 +30,10 @@ const App = () => {
     setRefreshKey((prevKey) => prevKey + 1); // Update the refresh key
   };
 
+  const handleUpload = () => {
+    setRefreshKey((prevKey) => prevKey + 1); // Update the refresh key
+  };
+
   return (
     <div className="App">
       <h1>SFTP Client</h1>
@@ -38,7 +42,7 @@ const App = () => {
       ) : (
         <div>
           <FileList key={refreshKey} path={path} />
-          <Upload />
+          <Upload onUpload={handleUpload} />
           <Download />
           <Delete onDelete={handleDelete} />
           <LogOut onDisConnect={handleDisconnect} />
