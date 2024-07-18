@@ -5,9 +5,11 @@ import Upload from './components/Upload';
 import CreateDirectory from './components/CreateDirectory';
 import LogOut from './components/LogOut';
 
+const SFTP_HOME_PATH = process.env.REACT_APP_SFTP_HOME_PATH 
+
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
-  const [path, setPath] = useState('upload/Manav');
+  const [path, setPath] = useState(SFTP_HOME_PATH);
   const [refreshKey, setRefreshKey] = useState(0); // New state to handle refresh
 
   const handleConnect = (message) => {
@@ -22,7 +24,7 @@ const App = () => {
   const handleDisconnect = (message) => {
     alert(message);
     setIsConnected(false);
-    setPath('upload/Manav'); // Reset path to default or initial state
+    setPath(SFTP_HOME_PATH); // Reset path to default or initial state
     setRefreshKey((prevKey) => prevKey + 1); // Reset refreshKey to trigger re-render
   };
 
