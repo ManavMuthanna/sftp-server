@@ -38,18 +38,24 @@ const FileList = ({ path, refreshKey, onDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {files.map((file) => (
-            <tr key={file.name}>
-              <td>{file.name}</td>
-              <td>{file.size} bytes</td>
-              <td>{formatDate(file.modifyTime)}</td>
-              <td>{formatDate(file.accessTime)}</td>
-              <td>
-                <Download fileName={file.name} />
-                <Delete fileName={file.name} onDelete={onDelete} />
-              </td>
+          {files.length > 0 ? (
+            files.map((file) => (
+              <tr key={file.name}>
+                <td>{file.name}</td>
+                <td>{file.size} bytes</td>
+                <td>{formatDate(file.modifyTime)}</td>
+                <td>{formatDate(file.accessTime)}</td>
+                <td>
+                  <Download fileName={file.name} />
+                  <Delete fileName={file.name} onDelete={onDelete} />
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5">No file/folders found, upload some!</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>
