@@ -72,9 +72,14 @@ app.post('/api/sftp/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-app.get('/api/sftp/download/:remotePath', async (req, res) => {
-  const { remotePath } = req.params;
+// Endpoint to download a file from the SFTP server
+app.post('/api/sftp/download', async (req, res) => {
+  const { remotePath } = req.body;
   
+  if (!remotePath) {
+    return res.status(400).json({ message: 'Remote path is required' });
+  }
+
   try {
     const fileData = await sftpClient.downloadFile(remotePath);
     
@@ -91,6 +96,7 @@ app.get('/api/sftp/download/:remotePath', async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
 
 // Endpoint to remove a file from the SFTP server
 app.delete('/api/sftp/delete', async (req, res) => {

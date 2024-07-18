@@ -1,12 +1,11 @@
-// src/components/Download.js
 import React from 'react';
 import { downloadFile } from '../api';
 
-const Download = ({ fileName }) => {
+const Download = ({ fileName, path }) => {
   const handleDownload = async () => {
     try {
-      const remotePath = 'upload%2FManav%2F';
-      const response = await downloadFile(remotePath + fileName);
+      const remotePath = `${path}/${fileName}`;
+      const response = await downloadFile(remotePath);
       const url = window.URL.createObjectURL(new Blob([response.data]));
       const link = document.createElement('a');
       link.href = url;
