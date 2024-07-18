@@ -3,30 +3,70 @@ import { getList } from '../api';
 import Delete from './Delete';
 import Download from './Download';
 
-const FileList = ({ path, refreshKey, onDelete }) => {
+const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
   const [files, setFiles] = useState([]);
+  const [breadcrumbs, setBreadcrumbs] = useState([]);
 
   useEffect(() => {
+    const updateBreadcrumbs = () => {
+      const parts = path.split('%2F');
+      const newBreadcrumbs = [];
+      let currentPath = '';
+      for (let part of parts) {
+        currentPath += part;
+        newBreadcrumbs.push({ name: part, path: currentPath });
+        currentPath += '%2F';
+      }
+      setBreadcrumbs(newBreadcrumbs);
+    };
+  
     const fetchFiles = async () => {
       try {
         const response = await getList(path);
         setFiles(response.data.message);
+        updateBreadcrumbs();
       } catch (err) {
         console.error(err);
       }
     };
-
+  
     fetchFiles();
-  }, [path, refreshKey]); // Depend on both path and refreshKey
-
+  }, [path, refreshKey]); // Only depend on path and refreshKey
+  
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleString();
   };
 
+  const handleDirectoryClick = (directoryName) => {
+    onDirectoryChange(`${path}%2F${directoryName}`); // Update the path to navigate to the directory
+  };
+
+  const handleBackClick = () => {
+    if (breadcrumbs.length > 1) {
+      const parentPath = breadcrumbs[breadcrumbs.length - 2].path;
+      onDirectoryChange(parentPath);
+    }
+  };
+
   return (
     <div>
-      <h2>{path.replace('%2F', ' > ')}</h2>
+      <h2>
+        {breadcrumbs.map((breadcrumb, index) => (
+          <span key={breadcrumb.path}>
+            <button
+              className="breadcrumb-link"
+              onClick={() => onDirectoryChange(breadcrumb.path)}
+            >
+              {breadcrumb.name}
+            </button>
+            {index !== breadcrumbs.length - 1 && ' > '}
+          </span>
+        ))}
+      </h2>
+      <button onClick={handleBackClick} disabled={breadcrumbs.length <= 1}>
+        Back
+      </button>
       <table>
         <thead>
           <tr>
@@ -38,10 +78,25 @@ const FileList = ({ path, refreshKey, onDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {files.length > 0 ? (
+          {files.length === 0 ? (
+            <tr>
+              <td colSpan="5">No file/folders found, upload some!</td>
+            </tr>
+          ) : (
             files.map((file) => (
               <tr key={file.name}>
-                <td>{file.name}</td>
+                <td>
+                  {file.type === 'd' ? (
+                    <button
+                      className="directory-link"
+                      onClick={() => handleDirectoryClick(file.name)}
+                    >
+                      {file.name}
+                    </button>
+                  ) : (
+                    file.name
+                  )}
+                </td>
                 <td>{file.size} bytes</td>
                 <td>{formatDate(file.modifyTime)}</td>
                 <td>{formatDate(file.accessTime)}</td>
@@ -51,10 +106,6 @@ const FileList = ({ path, refreshKey, onDelete }) => {
                 </td>
               </tr>
             ))
-          ) : (
-            <tr>
-              <td colSpan="5">No file/folders found, upload some!</td>
-            </tr>
           )}
         </tbody>
       </table>

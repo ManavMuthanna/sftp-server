@@ -22,10 +22,17 @@ const App = () => {
   const handleDisconnect = (message) => {
     alert(message);
     setIsConnected(false);
+    setPath('upload%2FManav'); // Reset path to default or initial state
+    setRefreshKey((prevKey) => prevKey + 1); // Reset refreshKey to trigger re-render
   };
 
   const handleRefresh = () => {
     setRefreshKey((prevKey) => prevKey + 1); // Update refresh key to trigger re-render
+  };
+
+  const handleDirectoryChange = (newPath) => {
+    setPath(newPath);
+    handleRefresh();
   };
 
   return (
@@ -35,8 +42,8 @@ const App = () => {
         <Connect onConnect={handleConnect} />
       ) : (
         <div>
-          <FileList path={path} refreshKey={refreshKey} onDelete={handleRefresh} />
-          <Upload onUpload={handleRefresh} />
+          <FileList path={path} refreshKey={refreshKey} onDelete={handleRefresh} onDirectoryChange={handleDirectoryChange} />
+          <Upload path={path} onUpload={handleRefresh} />
           <CreateDirectory onCreate={handleRefresh} />
           <LogOut onDisConnect={handleDisconnect} />
         </div>
