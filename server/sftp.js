@@ -115,6 +115,44 @@ async function disconnect() {
   }
 }
 
+async function createDirectory(remotePath) {
+  const sftp = await createConnection();
+  try {
+    await sftp.mkdir(remotePath, true);
+    return 'Directory created successfully';
+  } catch (err) {
+    console.error('Error creating directory:', err.message);
+    throw err;
+  } finally {
+    await sftp.end();
+  }
+}
+
+async function removeDirectory(remotePath) {
+  const sftp = await createConnection();
+  try {
+    const files = await sftp.list(remotePath);
+
+    // Recursively delete all files and directories
+    for (const file of files) {
+      const filePath = `${remotePath}/${file.name}`;
+      if (file.type === 'd') {
+        await removeDirectory(filePath); // Recursively remove subdirectories
+      } else {
+        await sftp.delete(filePath); // Delete files
+      }
+    }
+
+    await sftp.rmdir(remotePath);
+    return 'Directory and its contents removed successfully';
+  } catch (err) {
+    console.error('Error removing directory:', err.message);
+    throw err;
+  } finally {
+    await sftp.end();
+  }
+}
+
 module.exports = {
   connect,
   getStatus,
@@ -123,4 +161,6 @@ module.exports = {
   downloadFile,
   removeFile,
   disconnect,
+  createDirectory,
+  removeDirectory
 };

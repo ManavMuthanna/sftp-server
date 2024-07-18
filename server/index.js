@@ -109,6 +109,38 @@ app.delete('/api/sftp/delete/:path', async (req, res) => {
   }
 });
 
+// Endpoint to create a new directory on the SFTP server
+app.post('/api/sftp/create-directory', async (req, res) => {
+  const { remotePath } = req.body;
+
+  if (!remotePath) {
+    return res.status(400).json({ message: 'Remote path is required' });
+  }
+
+  try {
+    const response = await sftpClient.createDirectory(remotePath);
+    res.json({ message: response });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Endpoint to remove a directory from the SFTP server
+app.delete('/api/sftp/remove-directory', async (req, res) => {
+  const { remotePath } = req.body;
+
+  if (!remotePath) {
+    return res.status(400).json({ message: 'Remote path is required' });
+  }
+
+  try {
+    const response = await sftpClient.removeDirectory(remotePath);
+    res.json({ message: response });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Endpoint to disconnect from the SFTP server
 app.get('/api/sftp/disconnect', async (req, res) => {
   try {
