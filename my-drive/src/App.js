@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Connect from './components/Connect';
 import FileList from './components/FileList';
 import Upload from './components/Upload';
-import Download from './components/Download';
+import CreateDirectory from './components/CreateDirectory';
 import LogOut from './components/LogOut';
 
 const App = () => {
@@ -37,6 +37,7 @@ const App = () => {
         <div>
           <FileList path={path} refreshKey={refreshKey} onDelete={handleRefresh} />
           <Upload onUpload={handleRefresh} />
+          <CreateDirectory onCreate={handleRefresh} />
           <LogOut onDisConnect={handleDisconnect} />
         </div>
       )}

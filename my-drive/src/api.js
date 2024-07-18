@@ -12,5 +12,8 @@ export const uploadFile = (fileContent, remotePath) => api.post('/upload', { fil
 export const downloadFile = (remotePath) => api.get(`/download/${remotePath}`, { responseType: 'blob' });
 export const removeFile = (path) => api.delete(`/delete/${path}`);
 export const disconnect = () => api.get('/disconnect');
+export const createDirectory = (remotePath) => api.post('/create-directory', { remotePath });
+export const removeDirectory = (remotePath) => api.delete('/remove-directory', { data: { remotePath } });
+
 
 export default api;
