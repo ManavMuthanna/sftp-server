@@ -7,7 +7,7 @@ import LogOut from './components/LogOut';
 
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
-  const [path, setPath] = useState('upload%2FManav');
+  const [path, setPath] = useState('upload/Manav');
   const [refreshKey, setRefreshKey] = useState(0); // New state to handle refresh
 
   const handleConnect = (message) => {
@@ -22,7 +22,7 @@ const App = () => {
   const handleDisconnect = (message) => {
     alert(message);
     setIsConnected(false);
-    setPath('upload%2FManav'); // Reset path to default or initial state
+    setPath('upload/Manav'); // Reset path to default or initial state
     setRefreshKey((prevKey) => prevKey + 1); // Reset refreshKey to trigger re-render
   };
 
@@ -44,7 +44,7 @@ const App = () => {
         <div>
           <FileList path={path} refreshKey={refreshKey} onDelete={handleRefresh} onDirectoryChange={handleDirectoryChange} />
           <Upload path={path} onUpload={handleRefresh} />
-          <CreateDirectory onCreate={handleRefresh} />
+          <CreateDirectory path={path} onCreate={handleRefresh} />
           <LogOut onDisConnect={handleDisconnect} />
         </div>
       )}

@@ -9,17 +9,17 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
 
   useEffect(() => {
     const updateBreadcrumbs = () => {
-      const parts = path.split('%2F');
+      const parts = path.split('/');
       const newBreadcrumbs = [];
       let currentPath = '';
       for (let part of parts) {
         currentPath += part;
         newBreadcrumbs.push({ name: part, path: currentPath });
-        currentPath += '%2F';
+        currentPath += '/';
       }
       setBreadcrumbs(newBreadcrumbs);
     };
-  
+
     const fetchFiles = async () => {
       try {
         const response = await getList(path);
@@ -29,17 +29,17 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
         console.error(err);
       }
     };
-  
+
     fetchFiles();
-  }, [path, refreshKey]); // Only depend on path and refreshKey
-  
+  }, [path, refreshKey]); // Depend on path and refreshKey
+
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
     return date.toLocaleString();
   };
 
   const handleDirectoryClick = (directoryName) => {
-    onDirectoryChange(`${path}%2F${directoryName}`); // Update the path to navigate to the directory
+    onDirectoryChange(`${path}/${directoryName}`); // Update the path to navigate to the directory
   };
 
   const handleBackClick = () => {
@@ -102,7 +102,7 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
                 <td>{formatDate(file.accessTime)}</td>
                 <td>
                   <Download fileName={file.name} />
-                  <Delete fileName={file.name} onDelete={onDelete} />
+                  <Delete path={path} fileName={file.name} onDelete={onDelete} />
                 </td>
               </tr>
             ))

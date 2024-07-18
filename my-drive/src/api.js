@@ -1,4 +1,3 @@
-// src/api.js
 import axios from 'axios';
 
 const api = axios.create({
@@ -7,10 +6,10 @@ const api = axios.create({
 
 export const connect = () => api.post('/connect');
 export const getStatus = () => api.get('/status');
-export const getList = (path) => api.get(`/list/${path}`);
+export const getList = (path) => api.post('/list', { path });
 export const uploadFile = (fileContent, remotePath) => api.post('/upload', { fileContent, remotePath });
 export const downloadFile = (remotePath) => api.get(`/download/${remotePath}`, { responseType: 'blob' });
-export const removeFile = (path) => api.delete(`/delete/${path}`);
+export const removeFile = (remotePath) => api.post('/delete', { remotePath });
 export const disconnect = () => api.get('/disconnect');
 export const createDirectory = (remotePath) => api.post('/create-directory', { remotePath });
 export const removeDirectory = (remotePath) => api.delete('/remove-directory', { data: { remotePath } });

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createDirectory } from '../api';
 
-const CreateDirectory = ({ onCreate }) => {
+const CreateDirectory = ({ path, onCreate }) => {
   const [directoryName, setDirectoryName] = useState('');
 
   const handleCreate = async () => {
@@ -11,7 +11,7 @@ const CreateDirectory = ({ onCreate }) => {
     }
 
     try {
-      const response = await createDirectory(`upload/Manav/${directoryName}`);
+      const response = await createDirectory(`${path}/${directoryName}`);
       alert(response.data.message);
       onCreate(); // Notify parent component that directory creation is done
     } catch (err) {

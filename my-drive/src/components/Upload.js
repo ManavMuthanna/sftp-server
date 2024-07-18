@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Upload = ({ onUpload }) => {
+const Upload = ({ path, onUpload }) => {
   const [file, setFile] = useState(null);
-  const [remotePath, setRemotePath] = useState('upload/Manav');
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -17,7 +16,7 @@ const Upload = ({ onUpload }) => {
 
     const formData = new FormData();
     formData.append('file', file); // Append the file to FormData
-    formData.append('remotePath', `${remotePath}/${file.name}`); // Append remotePath
+    formData.append('remotePath', `${path}/${file.name}`); // Append path from props and file name
 
     try {
       const response = await axios.post('http://localhost:5000/api/sftp/upload', formData, {
