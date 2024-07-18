@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api/sftp', // Replace with your backend URL
+  baseURL: BACKEND_URL, // Replace with your backend URL
 });
 
 export const connect = () => api.post('/connect');
