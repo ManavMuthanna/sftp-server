@@ -9,7 +9,7 @@ export const getStatus = () => api.get('/status');
 export const getList = (path) => api.post('/list', { path });
 export const uploadFile = (fileContent, remotePath) => api.post('/upload', { fileContent, remotePath });
 export const downloadFile = (remotePath) => api.post('/download', { remotePath }, { responseType: 'blob' });
-export const removeFile = (remotePath) => api.post('/delete', { remotePath });
+export const removeFile = (remotePath) => api.delete('/delete', { data: { remotePath } });
 export const disconnect = () => api.get('/disconnect');
 export const createDirectory = (remotePath) => api.post('/create-directory', { remotePath });
 export const removeDirectory = (remotePath) => api.delete('/remove-directory', { data: { remotePath } });
