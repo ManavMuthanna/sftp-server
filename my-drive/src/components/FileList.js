@@ -101,7 +101,7 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
                 <td>{formatDate(file.modifyTime)}</td>
                 <td>{formatDate(file.accessTime)}</td>
                 <td>
-                  <Download fileName={file.name} />
+                  {file.type !== 'd' && <Download fileName={file.name} />}
                   <Delete path={path} fileName={file.name} onDelete={onDelete} />
                 </td>
               </tr>
