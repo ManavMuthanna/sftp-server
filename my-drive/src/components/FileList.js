@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { getList } from '../api';
 import Delete from './Delete';
 import Download from './Download';
+import { FaFile, FaFolder } from 'react-icons/fa';
+import './FileList.css'; 
 
 const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
   const [files, setFiles] = useState([]);
@@ -67,48 +69,52 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
       <button onClick={handleBackClick} disabled={breadcrumbs.length <= 1}>
         Back
       </button>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Size</th>
-            <th>Last Modified</th>
-            <th>Last Accessed</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {files.length === 0 ? (
+      <div className="table-container"> {/* Add a div for spacing */}
+        <table>
+          <thead>
             <tr>
-              <td colSpan="5">No file/folders found, upload some!</td>
+              <th>Name</th>
+              <th>Size</th>
+              <th>Last Modified</th>
+              <th>Last Accessed</th>
+              <th>Actions</th>
             </tr>
-          ) : (
-            files.map((file) => (
-              <tr key={file.name}>
-                <td>
-                  {file.type === 'd' ? (
-                    <button
-                      className="directory-link"
-                      onClick={() => handleDirectoryClick(file.name)}
-                    >
-                      {file.name}
-                    </button>
-                  ) : (
-                    file.name
-                  )}
-                </td>
-                <td>{file.size} bytes</td>
-                <td>{formatDate(file.modifyTime)}</td>
-                <td>{formatDate(file.accessTime)}</td>
-                <td>
-                  {file.type !== 'd' && <Download path={path} fileName={file.name} />}
-                  <Delete path={path} fileName={file.name} onDelete={onDelete} />
-                </td>
+          </thead>
+          <tbody>
+            {files.length === 0 ? (
+              <tr>
+                <td colSpan="5">No file/folders found, upload some!</td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              files.map((file) => (
+                <tr key={file.name}>
+                  <td>
+                    {file.type === 'd' ? (
+                      <button
+                        className="directory-link"
+                        onClick={() => handleDirectoryClick(file.name)}
+                      >
+                        <FaFolder /> {file.name}
+                      </button>
+                    ) : (
+                      <>
+                        <FaFile /> {file.name}
+                      </>
+                    )}
+                  </td>
+                  <td>{file.size} bytes</td>
+                  <td>{formatDate(file.modifyTime)}</td>
+                  <td>{formatDate(file.accessTime)}</td>
+                  <td>
+                    {file.type !== 'd' && <Download path={path} fileName={file.name} />}
+                    <Delete path={path} fileName={file.name} onDelete={onDelete} />
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
