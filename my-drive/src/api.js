@@ -9,7 +9,11 @@ const api = axios.create({
 export const connect = () => api.post('/connect');
 export const getStatus = () => api.get('/status');
 export const getList = (path) => api.post('/list', { path });
-export const uploadFile = (fileContent, remotePath) => api.post('/upload', { fileContent, remotePath });
+export const uploadFile = (formData) => api.post('/upload', formData, {
+  headers: {
+    'Content-Type': 'multipart/form-data',
+  },
+});
 export const downloadFile = (remotePath) => api.post('/download', { remotePath }, { responseType: 'blob' });
 export const removeFile = (remotePath) => api.delete('/delete', { data: { remotePath } });
 export const disconnect = () => api.get('/disconnect');
