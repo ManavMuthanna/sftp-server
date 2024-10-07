@@ -1,0 +1,18 @@
+version: '3'
+services:
+  sftp-server:
+    image: manavmuthanna/sftp-server
+    container_name: sftp-server
+    ports:
+      - "2222:22"
+
+  sftp-backend:
+    image: manavmuthanna/sftp-backend
+    container_name: sftp-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - SFTP_HOST=sftp-server  # Should resolve automatically
+      - SFTP_PORT=22 # Make sure the backend connects to port 22
+    depends_on:
+      - sftp-server
