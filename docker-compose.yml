@@ -13,6 +13,17 @@ services:
       - "5000:5000"
     environment:
       - SFTP_HOST=sftp-server  # Should resolve automatically
-      - SFTP_PORT=22 # Make sure the backend connects to port 22
+      - SFTP_PORT=22           # Make sure the backend connects to port 22
     depends_on:
       - sftp-server
+
+  sftp-frontend:  # Corrected indentation for this service
+    image: manavmuthanna/sftp-frontend
+    container_name: sftp-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_SFTP_HOME_PATH=upload
+      - REACT_APP_BACKEND_URL=http://sftp-backend/api/sftp
+    depends_on:
+      - sftp-backend
