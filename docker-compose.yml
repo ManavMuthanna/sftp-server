@@ -17,13 +17,10 @@ services:
     depends_on:
       - sftp-server
 
-  sftp-frontend:  # Corrected indentation for this service
+  sftp-frontend:
     image: manavmuthanna/sftp-frontend
     container_name: sftp-frontend
     ports:
       - "3000:3000"
-    environment:
-      - REACT_APP_SFTP_HOME_PATH=upload
-      - REACT_APP_BACKEND_URL=http://sftp-backend/api/sftp
     depends_on:
       - sftp-backend
