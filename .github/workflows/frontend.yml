@@ -33,6 +33,8 @@ jobs:
           file: ./my-drive/Dockerfile       # Path to your Dockerfile, adjust if it's in a subfolder
           push: true
           tags: manavmuthanna/sftp-frontend:latest
+          build-args: |
+            REACT_APP_BACKEND_URL=http://sftp-backend:5000/api/sftp
 
       # Optional: Log out from Docker Hub
       - name: Log out from Docker Hub
