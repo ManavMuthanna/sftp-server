@@ -16,11 +16,3 @@ services:
       - SFTP_PORT=22           # Make sure the backend connects to port 22
     depends_on:
       - sftp-server
-
-  sftp-frontend:
-    image: manavmuthanna/sftp-frontend
-    container_name: sftp-frontend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - sftp-backend
