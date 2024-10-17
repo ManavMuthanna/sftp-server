@@ -3,8 +3,12 @@ name: My-Drive React App
 on:
   push:
     branches: [main]
+    paths:
+      - 'my-drive/**'  # Only trigger on changes within the my-drive directory
   pull_request:
     branches: [main]
+    paths:
+      - 'my-drive/**'  # Only trigger on changes within the my-drive directory
 
 jobs:
   build:
