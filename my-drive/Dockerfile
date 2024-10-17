@@ -1,29 +1,39 @@
-# Step 1: Build the React app and serve in a single stage
-FROM node:18-alpine
+# Use a single base image for both build and runtime
+FROM node:18-alpine AS builder
 
-# Set working directory
+# Set the working directory
 WORKDIR /app
 
-# Copy only the necessary files for installing dependencies
-COPY package.json package-lock.json ./
+# Define build arguments
+ARG REACT_APP_BACKEND_URL
+ARG REACT_APP_SFTP_HOME_PATH="upload"
 
-# Install only production dependencies (avoiding devDependencies)
+# Copy package.json and package-lock.json first to leverage Docker caching
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install --omit=dev
 
-# Copy the rest of the app source code
+# Copy the rest of the application files
 COPY . .
 
-# Build the React app
-RUN npm run build
+# Build the application, passing in the environment variables
+RUN REACT_APP_BACKEND_URL=${REACT_APP_BACKEND_URL} REACT_APP_SFTP_HOME_PATH=${REACT_APP_SFTP_HOME_PATH} npm run build
 
-# Install 'serve' to serve static files
+# Use the same image for serving the built application
+FROM node:18-alpine
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the build output from the builder stage
+COPY --from=builder /app/build ./build
+
+# Install serve globally to serve static files
 RUN npm install -g serve
 
-# Remove node_modules to reduce image size (since it's only needed during build)
-RUN rm -rf node_modules
-
-# Expose port 3000 (or any other port you choose)
+# Expose port 3000 for the application
 EXPOSE 3000
 
-# Serve the app using 'serve'
-CMD ["serve", "-s", "build"]
+# Start the application using serve
+CMD ["serve", "-s", "build", "-l", "3000"]
