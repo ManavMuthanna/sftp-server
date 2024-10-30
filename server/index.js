@@ -16,6 +16,15 @@ app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' })); // Adjust limit as per your file size needs
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
+// Endpoint to get the status of the api
+app.get('/api/sftp', async (req, res) => {
+  try {
+    res.status(200).json({ message: "Hello, world! This is the myDrive (SFTP) API" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // Endpoint to connect to the SFTP server
 app.post('/api/sftp/connect', async (req, res) => {
   try {
