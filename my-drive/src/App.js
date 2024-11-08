@@ -4,7 +4,7 @@ import FileList from './components/FileList';
 import Upload from './components/Upload';
 import CreateDirectory from './components/CreateDirectory';
 import LogOut from './components/LogOut';
-
+import './App.css';
 const SFTP_HOME_PATH = process.env.REACT_APP_SFTP_HOME_PATH 
 
 const App = () => {
@@ -39,16 +39,18 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>SFTP Client</h1>
       {!isConnected ? (
         <Connect onConnect={handleConnect} />
       ) : (
-        <div>
+        <>
+          <div className="navbar">
+              <h1 className='header'>MyDrive Client</h1>
+              <LogOut onDisConnect={handleDisconnect} />
+          </div>
           <FileList path={path} refreshKey={refreshKey} onDelete={handleRefresh} onDirectoryChange={handleDirectoryChange} />
           <Upload path={path} onUpload={handleRefresh} />
           <CreateDirectory path={path} onCreate={handleRefresh} />
-          <LogOut onDisConnect={handleDisconnect} />
-        </div>
+          </>
       )}
     </div>
   );
