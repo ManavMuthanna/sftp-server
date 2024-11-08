@@ -1,44 +1,170 @@
-/* src/components/FileList.css */
+/* FileList.css */
+
+/* Container to wrap the entire file list component */
+.container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Breadcrumb container */
+.breadcrumb-container {
+  margin-bottom: 10px;
+}
+
+/* Breadcrumb navigation */
+.breadcrumbs {
+  font-size: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Style for breadcrumb links */
 .breadcrumb-link {
-    background: none;
-    border: none;
-    color: blue;
-    cursor: pointer;
-    text-decoration: underline;
-  }
-  
-  .directory-link {
-    background: none;
-    border: none;
-    color: green;
-    cursor: pointer;
-  }
-  
-  button[disabled] {
-    color: grey;
-    cursor: not-allowed;
-  }
-  
-  .table-container {
-    margin-top: 20px; /* Add space between the button and the table */
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  th {
-    background-color: #f2f2f2;
-  }
-  
-  tr:hover {
-    background-color: #f5f5f5;
-  }
-  
+  background: none;
+  border: none;
+  color: #007bff;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.breadcrumb-link:hover {
+  text-decoration: none;
+}
+
+/* Back button styling */
+.back-button {
+  margin: 10px 0;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.back-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Table wrapper */
+.table-wrapper {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+/* Table styling */
+.table {
+  width: 100%;
+  border-collapse: separate; /* Changes table borders to be separate for rounded corners */
+  border-spacing: 0; /* Removes default spacing between cells */
+  background-color: #fff;
+  border-radius: 10px; /* Rounded corners for the table */
+  border: #000000 solid 1px;
+  overflow: hidden; /* Prevents rounded corners from being cut off */
+}
+
+/* Table header styling */
+.table-header {
+  background-color: #f4f4f4;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.table th {
+  font-weight: bold;
+}
+
+.table td {
+  border-top: 1px solid #ddd;
+}
+
+/* No files message */
+.no-files-message {
+  text-align: center;
+  font-size: 18px;
+  color: #888;
+  padding: 20px;
+}
+
+/* Style for table cells */
+.table-cell {
+  vertical-align: middle;
+}
+
+/* Action buttons container */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+/* Button styles for directory link */
+.directory-link {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: #007bff;
+}
+
+.directory-link span{
+  padding-left: 6px;
+}
+
+.directory-link:hover {
+  text-decoration: underline;
+}
+
+/* Icon styling */
+.FaFile, .FaFolder {
+  margin-right: 8px;
+  font-size: 18px;
+  vertical-align: middle;
+}
+
+/* Additional styling for the table (files/folders) */
+.directory-link {
+  color: #28a745;
+}
+
+.FaFile {
+  color: #17a2b8;
+}
+
+.FaFolder {
+  color: #ffc107;
+}
+
+/* Hover effect for table rows */
+.table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Delete and download button styles */
+.delete-button, .download-button {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover, .download-button:hover {
+  background-color: #c82333;
+}
+
+.delete-button:disabled, .download-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

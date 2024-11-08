@@ -1,0 +1,46 @@
+/* Container for the delete section */
+.delete-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #f9f9f9;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 50px auto;
+  }
+  
+  /* Heading Style */
+  .delete-heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  /* Subheading Style */
+  .delete-subheading {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 25px;
+  }
+  
+  /* Delete Button Style */
+  .delete-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #FF4D4D; /* Red color for delete action */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button Hover Effect */
+  .delete-button:hover {
+    background-color: #FF1F1F; /* Darker red on hover */
+  }
+  

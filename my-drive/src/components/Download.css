@@ -1,0 +1,18 @@
+/* Button Style */
+.download-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff; /* Blue color for the download button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+  }
+  
+  /* Button Hover Effect */
+  .download-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+  }
+  
