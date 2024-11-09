@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "MyDrive",
+  "name": "SFTP Client/Server Model",
   "icons": [
     {
       "src": "favicon.ico",
