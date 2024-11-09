@@ -23,4 +23,14 @@
     align-items: center;
     padding: 10px 20px;
     background-color: #f8f9fa;
+    margin-left: 250px;
+    margin-right: 250px;
+    background-color: transparent;
+}
+
+@media (max-width: 768px) {
+  .file-functions{
+    margin-left: 10px;
+    margin-right: 10px;
+}
 }

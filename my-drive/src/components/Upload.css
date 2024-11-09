@@ -1,0 +1,77 @@
+/* src/components/Upload.css */
+
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4f4f4;
+    padding: 30px;
+    border-radius: 8px;
+    border: #000000 solid 1px;
+  }
+  
+  .upload-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .upload-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+  }
+  
+  .upload-input input {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .upload-input span {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .upload-button {
+    padding: 12px 25px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .upload-button:hover {
+    background-color: #45a049;
+  }
+  
+  .upload-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .upload-button.loading {
+    background-color: #ff9800;
+  }
+  
+  @media (max-width: 768px) {
+    .upload-container {
+      padding: 10px;
+    }
+  
+    .upload-button {
+      width: 100%;
+      max-width: 90%;
+    }
+  }
+  
