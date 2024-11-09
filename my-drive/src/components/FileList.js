@@ -40,6 +40,13 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
     return date.toLocaleString();
   };
 
+  const formatFileSize = (size) => {
+    if (size < 1024) return `${size} bytes`;
+    else if (size < 1024 * 1024) return `${(size / 1024).toFixed(2)} KB`;
+    else if (size < 1024 * 1024 * 1024) return `${(size / (1024 * 1024)).toFixed(2)} MB`;
+    else return `${(size / (1024 * 1024 * 1024)).toFixed(2)} GB`;
+  };
+
   const handleDirectoryClick = (directoryName) => {
     onDirectoryChange(`${path}/${directoryName}`); // Update the path to navigate to the directory
   };
@@ -109,7 +116,7 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
                       </>
                     )}
                   </td>
-                  <td className="table-cell">{file.size} bytes</td>
+                  <td className="table-cell">{formatFileSize(file.size)}</td>
                   <td className="table-cell">{formatDate(file.modifyTime)}</td>
                   <td className="table-cell">{formatDate(file.accessTime)}</td>
                   <td className="table-cell action-buttons">
