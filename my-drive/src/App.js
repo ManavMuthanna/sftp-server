@@ -49,7 +49,7 @@ const App = () => {
           </div>
           <FileList path={path} refreshKey={refreshKey} onDelete={handleRefresh} onDirectoryChange={handleDirectoryChange} />
           <div className='file-functions'>
-            <Upload path={path} onUpload={handleRefresh} />
+            <Upload path={path} refreshKey={refreshKey} onUpload={handleRefresh} />
             <CreateDirectory path={path} onCreate={handleRefresh} />
           </div>
           </>

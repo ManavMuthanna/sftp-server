@@ -1,9 +1,9 @@
 // src/components/Upload.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { uploadFile } from '../api';
 import './Upload.css'; // Import the CSS file
 
-const Upload = ({ path, onUpload }) => {
+const Upload = ({ path, refreshKey, onUpload }) => {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -37,11 +37,17 @@ const Upload = ({ path, onUpload }) => {
     }
   };
 
+  // Reset file and loading state when refreshKey changes
+  useEffect(() => {
+    setFile(null);
+    setLoading(false);
+  }, [refreshKey]);
+
   return (
     <div className="upload-container">
       <h2>Upload File</h2>
       <div className="upload-input">
-        <input type="file" onChange={handleFileChange} />
+        <input key={refreshKey} type="file" onChange={handleFileChange} />
         {file && <span>{file.name}</span>}
       </div>
       <button
