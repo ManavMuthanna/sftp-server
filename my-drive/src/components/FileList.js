@@ -52,7 +52,7 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
   };
 
   return (
-    <div className="container">
+    <div className="filelist-container">
       <div className="breadcrumb-container">
         <h2 className="breadcrumbs">
           {breadcrumbs.map((breadcrumb, index) => (
@@ -68,10 +68,11 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
           ))}
         </h2>
       </div>
-
-      <button onClick={handleBackClick} disabled={breadcrumbs.length <= 1} className="back-button">
-        Back
-      </button>
+      <div className='backbutton-container'>
+        <button onClick={handleBackClick} disabled={breadcrumbs.length <= 1} className="back-button">
+          Back
+        </button>
+      </div>
 
       <div className="table-wrapper">
         <table className="table">

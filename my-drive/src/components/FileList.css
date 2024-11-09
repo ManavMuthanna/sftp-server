@@ -1,9 +1,14 @@
 /* FileList.css */
 
 /* Container to wrap the entire file list component */
-.container {
+.filelist-container {
   padding: 20px;
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column; /* Make the container flexible */
+  width: 100%; /* Ensure container takes the full width available */
+  height: auto; /* Let the height grow based on content */
+  box-sizing: border-box; /* Ensure padding is included in the container's size */
 }
 
 /* Breadcrumb container */
@@ -153,15 +158,10 @@
 /* Delete and download button styles */
 .delete-button, .download-button {
   padding: 5px 10px;
-  background-color: #dc3545;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
-
-.delete-button:hover, .download-button:hover {
-  background-color: #c82333;
 }
 
 .delete-button:disabled, .download-button:disabled {

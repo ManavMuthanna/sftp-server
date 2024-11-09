@@ -14,7 +14,7 @@ const Connect = ({ onConnect }) => {
   };
 
   return (
-    <div className="container">
+    <div className="welcome-container">
       <h1 className="heading">Welcome to MyDrive - A SFTP Client/Server Model</h1>
       <p className="subheading">Click below to connect securely</p>
       <button onClick={handleConnect} className="button">Connect to SFTP</button>

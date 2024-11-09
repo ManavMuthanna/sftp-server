@@ -4,7 +4,7 @@
   align-items: center;
   padding: 10px 20px;
   background-color: #f8f9fa;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #000000;
 }
 
 .navbar h1 {
@@ -15,4 +15,12 @@
 
 .navbar .logout-button {
   margin-left: auto; /* Ensures the button is pushed to the far right */
+}
+
+.file-functions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
 }
