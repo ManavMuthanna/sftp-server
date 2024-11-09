@@ -1,9 +1,9 @@
 // src/components/CreateDirectory.js
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { createDirectory } from '../api';
 import './CreateDirectory.css'; // Import the CSS file
 
-const CreateDirectory = ({ path, onCreate }) => {
+const CreateDirectory = ({ path, refreshKey, onCreate }) => {
   const [directoryName, setDirectoryName] = useState('');
 
   const handleCreate = async () => {
@@ -20,6 +20,11 @@ const CreateDirectory = ({ path, onCreate }) => {
       console.error(err);
     }
   };
+
+  // Reset folder name when refreshKey changes
+  useEffect(() => {
+    setDirectoryName('');
+  }, [refreshKey]);
 
   return (
     <div className="mkdir-container">
