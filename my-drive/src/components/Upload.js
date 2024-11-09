@@ -46,7 +46,7 @@ const Upload = ({ path, refreshKey, onUpload }) => {
   return (
     <div className="upload-container">
       <h2>Upload File</h2>
-      <div className="upload-input">
+      <div className={`upload-input ${file ? 'file-selected' : ''}`}>
         <input key={refreshKey} type="file" onChange={handleFileChange} />
         {file && <span>{file.name}</span>}
       </div>

@@ -52,6 +52,12 @@
     max-width: 300px;
   }
   
+  .upload-input.file-selected {
+    border: 2px solid black;
+    padding: 8px; /* Adjust padding for consistent look */
+    border-radius: 4px;
+  }
+
   .upload-button:hover {
     background-color: #45a049;
   }
