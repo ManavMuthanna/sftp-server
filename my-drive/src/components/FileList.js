@@ -55,16 +55,16 @@ const FileList = ({ path, refreshKey, onDelete, onDirectoryChange }) => {
     <div className="filelist-container">
       <div className="breadcrumb-container">
         <h2 className="breadcrumbs">
-          {breadcrumbs.map((breadcrumb, index) => (
-            <span key={breadcrumb.path}>
-              <button
-                className="breadcrumb-link"
-                onClick={() => onDirectoryChange(breadcrumb.path)}
-              >
-                {breadcrumb.name}
-              </button>
-              {index !== breadcrumbs.length - 1 && ' > '}
-            </span>
+        {breadcrumbs.map((breadcrumb, index) => (
+          <span key={breadcrumb.path}>
+            <button
+              className={`breadcrumb-link ${index === breadcrumbs.length - 1 ? 'current-directory' : ''}`}
+              onClick={() => onDirectoryChange(breadcrumb.path)}
+            >
+              {breadcrumb.name}
+            </button>
+            {index !== breadcrumbs.length - 1 && ' > '}
+          </span>
           ))}
         </h2>
       </div>

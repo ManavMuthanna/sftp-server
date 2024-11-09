@@ -24,19 +24,28 @@
   align-items: center;
 }
 
-/* Style for breadcrumb links */
+/* Breadcrumb link style */
 .breadcrumb-link {
   background: none;
   border: none;
   color: #007bff;
   font-size: 16px;
   cursor: pointer;
-  padding: 0;
-  text-decoration: underline;
+  text-decoration: none;
+  padding: 0 5px;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+/* Current directory underline */
+.current-directory {
+  border-bottom: 2px solid #007bff; /* Permanent underline for the current directory */
+  font-weight: bold;
 }
 
 .breadcrumb-link:hover {
-  text-decoration: none;
+  color: #0056b3;
+  border-bottom: 2px solid #007bff;
 }
 
 /* Back button styling */
