@@ -1,4 +1,4 @@
-﻿***myDrive – A SFTP Server and Client Setup***
+﻿***MyDrive – A SFTP Server and Client Setup***
 
 **Problem Statement:**
 
